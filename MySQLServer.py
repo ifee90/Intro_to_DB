@@ -9,15 +9,19 @@ def create_database():
             password='celebrate1990'
         )
 
-        if connection.is_connected():
-            cursor = connection.cursor()
-            cursor.execute("CREATE DATABASE IF NOT EXISTS alx_book_store")
-            print("Database 'alx_book_store' created successfully!")
+        cursor = connection.cursor()
+        cursor.execute("CREATE DATABASE IF NOT EXISTS alx_book_store")
+        print("Database 'alx_book_store' created successfully!")
+
+    except mysql.connector.Error as err:
+        print(f"❌ Failed to connect or create database: {err}")
+
+    finally:
+        if 'connection' in locals() and connection.is_connected():
             cursor.close()
             connection.close()
-
-    except Error as e:
-        print(f"❌ Failed to connect or create database: {e}")
+            print("Connection closed")
 
 if __name__ == "__main__":
     create_database()
+
